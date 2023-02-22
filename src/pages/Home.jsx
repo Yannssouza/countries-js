@@ -15,7 +15,7 @@ const Home = () => {
   }, []);
 
   const getCountries = async () => {
-    const res = await fetch("https://restcountries.com/v3.1/all");
+    const res = await fetch("https://restcountries.com/v2/all");
     const data = await res.json();
     await setCountries(data);
   };
@@ -34,14 +34,14 @@ const Home = () => {
 
   const searchCountry = async (term) => {
     if (term.length < 3 || term === "") return;
-    const res = await fetch(`https://restcountries.com/v3.1/name/${term}`);
+    const res = await fetch(`https://restcountries.com/v2/name/${term}`);
     const data = await res.json();
     await setCountries(data);
   };
 
   const filterByRegion = async (region) => {
     if (region === "") return;
-    const res = await fetch(`https://restcountries.com/v3.1/region/${region}`);
+    const res = await fetch(`https://restcountries.com/v2/region/${region}`);
     const data = await res.json();
     await setCountries(data);
   };
@@ -71,9 +71,9 @@ const Home = () => {
           className="my-2 ml-auto rounded-md p-2 font-medium shadow-md dark:bg-neutral-700"
           onChange={(value) => filterByRegion(value.target.value)}
         >
-          <option>Filter by Region</option>
+          <option value="">Filter by Region</option>
           <option value="africa">Africa</option>
-          <option value="america">America</option>
+          <option value="americas">America</option>
           <option value="asia">Asia</option>
           <option value="europe">Europe</option>
           <option value="oceania">Oceania</option>
@@ -81,10 +81,10 @@ const Home = () => {
       </div>
       <div className="container mx-auto grid grid-cols-4 gap-16">
         {countries.map((country, index) => (
-          <Link to={{ pathname: "details", state: country }} key={index}>
+          <Link to="details" state={country} key={index}>
             <ThumbDetail
-              title={country.name.common}
-              image_url={country.flags.png}
+              title={country.name}
+              image_url={country.flag}
               population={country.population}
               region={country.region}
               capital={country.capital}
